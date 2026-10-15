@@ -1,0 +1,48 @@
+name: Sync releases
+on:
+  schedule:
+    - cron: '23 */6 * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: cloudlight-release-sync
+  cancel-in-progress: false
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - run: npm run validate
+      - name: Mirror sources and regenerate verified index
+        id: sync
+        continue-on-error: true
+        run: npm run sync
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          SOURCE_RELEASES_READ_TOKEN: ${{ secrets.SOURCE_RELEASES_READ_TOKEN }}
+      - name: Commit successful index changes, including partial project success
+        if: always() && steps.sync.outcome != 'skipped'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          npm run validate
+          if git diff --quiet -- data/releases.json; then
+            echo 'No index changes'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- data/releases.json
+          git commit -m 'Update verified public release index'
+          gh auth setup-git
+          git push origin HEAD:main
+      - name: Report synchronization errors
+        if: always() && steps.sync.outcome == 'failure'
+        run: exit 1

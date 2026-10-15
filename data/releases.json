@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": null,
+  "projects": {
+    "cloudlight-wechat": {
+      "latestVersion": null,
+      "releases": []
+    },
+    "cloudlight-startup": {
+      "latestVersion": null,
+      "releases": []
+    },
+    "cloudlight-blizzard": {
+      "latestVersion": null,
+      "releases": []
+    },
+    "cloudlight-video-compressor": {
+      "latestVersion": null,
+      "releases": []
+    },
+    "cloudlight-automator": {
+      "latestVersion": null,
+      "releases": []
+    },
+    "cloudlight-codex-bridge": {
+      "latestVersion": null,
+      "releases": []
+    },
+    "cloudlight-xiaomi": {
+      "latestVersion": null,
+      "releases": []
+    },
+    "twitter-x-media-renamer": {
+      "latestVersion": null,
+      "releases": []
+    },
+    "heybox-post-exporter": {
+      "latestVersion": null,
+      "releases": []
+    },
+    "cloudlight-overwatch-youtube-watcher": {
+      "latestVersion": null,
+      "releases": []
+    },
+    "cloudlight-soop-drops-miner": {
+      "latestVersion": null,
+      "releases": []
+    },
+    "microsoft-pinyin-cleaner": {
+      "latestVersion": null,
+      "releases": []
+    },
+    "power-settings-manager": {
+      "latestVersion": null,
+      "releases": []
+    },
+    "mobile-hotspot-controller": {
+      "latestVersion": null,
+      "releases": []
+    },
+    "tdm-claim-toggle-patcher": {
+      "latestVersion": null,
+      "releases": []
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "cloudlight-wechat": [
+    "CloudLight.WeChat-2026.906.4-Setup.dmg",
+    "CloudLight.WeChat-2026.906.4-Setup.exe"
+  ],
+  "cloudlight-startup": [
+    "CloudLight-Startup-Setup-1.0.1-x64.exe"
+  ],
+  "cloudlight-blizzard": [
+    "CloudLight-Blizzard-2.1.10-win-x64-Setup.exe"
+  ],
+  "cloudlight-video-compressor": [
+    "CloudLight-Video-Compressor-Setup-x64-1.3.3.exe"
+  ],
+  "cloudlight-automator": [
+    "CloudLight-Automator-0.1.0-Windows-x64-Portable.zip",
+    "CloudLight-Automator-0.1.0-Windows-x64-Setup.exe"
+  ],
+  "cloudlight-codex-bridge": [
+    "CloudLight-CodexBridge-Setup-1.3.5-win-x64.exe"
+  ],
+  "cloudlight-xiaomi": [
+    "CloudLight-XiaoMi-Setup-2.1.5.exe"
+  ],
+  "twitter-x-media-renamer": [
+    "TwitterXMediaRenamer-v1.0.0-win-x64.zip"
+  ],
+  "heybox-post-exporter": [
+    "HeyboxPostExporter.exe"
+  ],
+  "cloudlight-overwatch-youtube-watcher": [
+    "CloudLight-Overwatch-YouTube-Watcher-Setup-v3.0.1-x64.exe"
+  ],
+  "cloudlight-soop-drops-miner": [
+    "CloudLight_SOOP_Drops_Miner.exe"
+  ],
+  "microsoft-pinyin-cleaner": [
+    "MicrosoftPinyinCleaner.exe"
+  ],
+  "power-settings-manager": [
+    "PowerSettingsManager-v1.1.0-win-x64-portable.zip"
+  ],
+  "mobile-hotspot-controller": [
+    "MobileHotspotController.exe"
+  ],
+  "tdm-claim-toggle-patcher": [
+    "TDM-Claim-Toggle-Patcher.exe"
+  ]
+}

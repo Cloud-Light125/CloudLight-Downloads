@@ -1,0 +1,16 @@
+{
+  "name": "cloudlight-downloads",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "validate": "node scripts/validate-config.mjs && node scripts/verify-releases.mjs",
+    "test": "node --test scripts/test-sync.mjs",
+    "sync": "node scripts/sync-releases.mjs",
+    "build:index": "node scripts/build-index.mjs",
+    "verify": "node scripts/verify-releases.mjs",
+    "import:local": "node scripts/import-local.mjs"
+  }
+}

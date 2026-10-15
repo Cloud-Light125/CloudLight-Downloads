@@ -1,0 +1,251 @@
+{
+  "schemaVersion": 1,
+  "targetRepository": "Cloud-Light125/CloudLight-Downloads",
+  "sources": [
+    {
+      "projectId": "cloudlight-wechat",
+      "repository": "Cloud-Light125/CloudLight-WeChat",
+      "displayName": "CloudLight WeChat",
+      "enabled": true,
+      "selection": "latest-published",
+      "verifiedAt": "2026-10-15",
+      "evidence": "2026-10-15 authenticated GET /repos/Cloud-Light125/CloudLight-WeChat/releases (published/draft/prerelease, exact asset names/sizes/digests). Unstated CPU architecture stays unknown.",
+      "assetRules": [
+        {
+          "pattern": "^CloudLight[.-]WeChat-[0-9][\\w.+-]*-Setup\\.exe$",
+          "platform": "windows",
+          "arch": "unknown"
+        },
+        {
+          "pattern": "^CloudLight[.-]WeChat-[0-9][\\w.+-]*-Setup\\.dmg$",
+          "platform": "macos",
+          "arch": "unknown"
+        }
+      ]
+    },
+    {
+      "projectId": "cloudlight-startup",
+      "repository": "Cloud-Light125/CloudLight-Startup",
+      "displayName": "CloudLight Startup",
+      "enabled": true,
+      "selection": "latest-published",
+      "verifiedAt": "2026-10-15",
+      "evidence": "2026-10-15 authenticated GET /repos/Cloud-Light125/CloudLight-Startup/releases (published/draft/prerelease, exact asset names/sizes/digests). Unstated CPU architecture stays unknown.",
+      "assetRules": [
+        {
+          "pattern": "^CloudLight-Startup-Setup-[0-9][\\w.+-]*-x64\\.exe$",
+          "platform": "windows",
+          "arch": "x64"
+        }
+      ]
+    },
+    {
+      "projectId": "cloudlight-blizzard",
+      "repository": "Cloud-Light125/CloudLight-Blizzard",
+      "displayName": "CloudLight Blizzard",
+      "enabled": true,
+      "selection": "latest-published",
+      "verifiedAt": "2026-10-15",
+      "evidence": "2026-10-15 authenticated GET /repos/Cloud-Light125/CloudLight-Blizzard/releases (published/draft/prerelease, exact asset names/sizes/digests). Unstated CPU architecture stays unknown.",
+      "assetRules": [
+        {
+          "pattern": "^CloudLight-Blizzard-[0-9][\\w.+-]*-win-x64-(?:Setup\\.exe|portable\\.zip)$",
+          "platform": "windows",
+          "arch": "x64"
+        }
+      ]
+    },
+    {
+      "projectId": "cloudlight-video-compressor",
+      "repository": "Cloud-Light125/CloudLight-Video-Compressor",
+      "displayName": "CloudLight Video Compressor",
+      "enabled": true,
+      "selection": "latest-published",
+      "verifiedAt": "2026-10-15",
+      "evidence": "2026-10-15 authenticated GET /repos/Cloud-Light125/CloudLight-Video-Compressor/releases (published/draft/prerelease, exact asset names/sizes/digests). Unstated CPU architecture stays unknown.",
+      "assetRules": [
+        {
+          "pattern": "^CloudLight-Video-Compressor-Setup-x64-[0-9][\\w.+-]*\\.exe$",
+          "platform": "windows",
+          "arch": "x64"
+        }
+      ]
+    },
+    {
+      "projectId": "cloudlight-automator",
+      "repository": "Cloud-Light125/cloudlight-automator",
+      "displayName": "CloudLight Automator",
+      "enabled": true,
+      "selection": "latest-published",
+      "verifiedAt": "2026-10-15",
+      "evidence": "2026-10-15 authenticated GET /repos/Cloud-Light125/cloudlight-automator/releases (published/draft/prerelease, exact asset names/sizes/digests). Unstated CPU architecture stays unknown.",
+      "assetRules": [
+        {
+          "pattern": "^CloudLight-Automator-[0-9][\\w.+-]*-Windows-x64-(?:Setup\\.exe|Portable\\.zip)$",
+          "platform": "windows",
+          "arch": "x64"
+        }
+      ]
+    },
+    {
+      "projectId": "cloudlight-codex-bridge",
+      "repository": "Cloud-Light125/Codex-Bridge",
+      "displayName": "Codex Bridge",
+      "enabled": true,
+      "selection": "latest-published",
+      "verifiedAt": "2026-10-15",
+      "evidence": "2026-10-15 authenticated GET /repos/Cloud-Light125/Codex-Bridge/releases (published/draft/prerelease, exact asset names/sizes/digests). Unstated CPU architecture stays unknown.",
+      "assetRules": [
+        {
+          "pattern": "^CloudLight-CodexBridge-(?:Setup|Portable)-[0-9][\\w.+-]*-win-x64\\.(?:exe|zip)$",
+          "platform": "windows",
+          "arch": "x64"
+        }
+      ]
+    },
+    {
+      "projectId": "cloudlight-xiaomi",
+      "repository": "Cloud-Light125/CloudLight-XiaoMi",
+      "displayName": "CloudLight XiaoMi",
+      "enabled": true,
+      "selection": "latest-published",
+      "verifiedAt": "2026-10-15",
+      "evidence": "2026-10-15 authenticated GET /repos/Cloud-Light125/CloudLight-XiaoMi/releases (published/draft/prerelease, exact asset names/sizes/digests). Existing verified installer build output is Windows x64. Unstated CPU architecture stays unknown.",
+      "assetRules": [
+        {
+          "pattern": "^CloudLight-XiaoMi-Setup-[0-9][\\w.+-]*\\.exe$",
+          "platform": "windows",
+          "arch": "x64"
+        }
+      ]
+    },
+    {
+      "projectId": "twitter-x-media-renamer",
+      "repository": "Cloud-Light125/TwitterXMediaRenamer",
+      "displayName": "Twitter X Media Renamer",
+      "enabled": true,
+      "selection": "latest-published",
+      "verifiedAt": "2026-10-15",
+      "evidence": "2026-10-15 authenticated GET /repos/Cloud-Light125/TwitterXMediaRenamer/releases (published/draft/prerelease, exact asset names/sizes/digests). Unstated CPU architecture stays unknown.",
+      "assetRules": [
+        {
+          "pattern": "^TwitterXMediaRenamer-v[0-9][\\w.+-]*-win-x64\\.zip$",
+          "platform": "windows",
+          "arch": "x64"
+        }
+      ]
+    },
+    {
+      "projectId": "heybox-post-exporter",
+      "repository": "Cloud-Light125/HeyboxPostExporter",
+      "displayName": "Heybox Post Exporter",
+      "enabled": true,
+      "selection": "latest-published",
+      "verifiedAt": "2026-10-15",
+      "evidence": "2026-10-15 authenticated GET /repos/Cloud-Light125/HeyboxPostExporter/releases (published/draft/prerelease, exact asset names/sizes/digests). Local README/build.ps1 explicitly says Windows x64. Unstated CPU architecture stays unknown.",
+      "assetRules": [
+        {
+          "pattern": "^HeyboxPostExporter\\.exe$",
+          "platform": "windows",
+          "arch": "x64"
+        }
+      ]
+    },
+    {
+      "projectId": "cloudlight-overwatch-youtube-watcher",
+      "repository": "Cloud-Light125/CloudLight-Overwatch-YouTube-Watcher",
+      "displayName": "CloudLight Overwatch YouTube Watcher",
+      "enabled": true,
+      "selection": "latest-published",
+      "verifiedAt": "2026-10-15",
+      "evidence": "2026-10-15 authenticated GET /repos/Cloud-Light125/CloudLight-Overwatch-YouTube-Watcher/releases (published/draft/prerelease, exact asset names/sizes/digests). Unstated CPU architecture stays unknown.",
+      "assetRules": [
+        {
+          "pattern": "^CloudLight-Overwatch-YouTube-Watcher-Setup-v[0-9][\\w.+-]*-x64\\.exe$",
+          "platform": "windows",
+          "arch": "x64"
+        }
+      ]
+    },
+    {
+      "projectId": "cloudlight-soop-drops-miner",
+      "repository": "Cloud-Light125/cloudlight-soop-drops-miner",
+      "displayName": "CloudLight SOOP Drops Miner",
+      "enabled": true,
+      "selection": "latest-published",
+      "verifiedAt": "2026-10-15",
+      "evidence": "2026-10-15 authenticated GET /repos/Cloud-Light125/cloudlight-soop-drops-miner/releases (published/draft/prerelease, exact asset names/sizes/digests). Unstated CPU architecture stays unknown.",
+      "assetRules": [
+        {
+          "pattern": "^CloudLight_SOOP_Drops_Miner\\.exe$",
+          "platform": "windows",
+          "arch": "unknown"
+        }
+      ]
+    },
+    {
+      "projectId": "microsoft-pinyin-cleaner",
+      "repository": "Cloud-Light125/MicrosoftPinyinCleaner",
+      "displayName": "Microsoft Pinyin Cleaner",
+      "enabled": true,
+      "selection": "latest-published",
+      "verifiedAt": "2026-10-15",
+      "evidence": "2026-10-15 authenticated GET /repos/Cloud-Light125/MicrosoftPinyinCleaner/releases (published/draft/prerelease, exact asset names/sizes/digests). Local net8 win-x64 publish output confirmed. Unstated CPU architecture stays unknown.",
+      "assetRules": [
+        {
+          "pattern": "^MicrosoftPinyinCleaner\\.exe$",
+          "platform": "windows",
+          "arch": "x64"
+        }
+      ]
+    },
+    {
+      "projectId": "power-settings-manager",
+      "repository": "Cloud-Light125/PowerSettingsManager",
+      "displayName": "Power Settings Manager",
+      "enabled": true,
+      "selection": "latest-published",
+      "verifiedAt": "2026-10-15",
+      "evidence": "2026-10-15 authenticated GET /repos/Cloud-Light125/PowerSettingsManager/releases (published/draft/prerelease, exact asset names/sizes/digests). Unstated CPU architecture stays unknown.",
+      "assetRules": [
+        {
+          "pattern": "^PowerSettingsManager-v[0-9][\\w.+-]*-win-x64-portable\\.zip$",
+          "platform": "windows",
+          "arch": "x64"
+        }
+      ]
+    },
+    {
+      "projectId": "mobile-hotspot-controller",
+      "repository": "Cloud-Light125/MobileHotspotController",
+      "displayName": "Mobile Hotspot Controller",
+      "enabled": true,
+      "selection": "latest-published",
+      "verifiedAt": "2026-10-15",
+      "evidence": "2026-10-15 authenticated GET /repos/Cloud-Light125/MobileHotspotController/releases (published/draft/prerelease, exact asset names/sizes/digests). Unstated CPU architecture stays unknown.",
+      "assetRules": [
+        {
+          "pattern": "^MobileHotspotController\\.exe$",
+          "platform": "windows",
+          "arch": "unknown"
+        }
+      ]
+    },
+    {
+      "projectId": "tdm-claim-toggle-patcher",
+      "repository": "Cloud-Light125/tdm-claim-toggle-patcher",
+      "displayName": "TDM Claim Toggle Patcher",
+      "enabled": true,
+      "selection": "latest-published",
+      "verifiedAt": "2026-10-15",
+      "evidence": "2026-10-15 authenticated GET /repos/Cloud-Light125/tdm-claim-toggle-patcher/releases (published/draft/prerelease, exact asset names/sizes/digests). Unstated CPU architecture stays unknown.",
+      "assetRules": [
+        {
+          "pattern": "^TDM-Claim-Toggle-Patcher\\.exe$",
+          "platform": "windows",
+          "arch": "unknown"
+        }
+      ]
+    }
+  ]
+}
