@@ -3,7 +3,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { createHash, randomUUID } from 'node:crypto';
 import { digestOf, hashFile } from './github.mjs';
-import { validateIndex, sortReleases, validDate, validVersion, validFilename } from './index-schema.mjs';
+import { TARGET_REPOSITORY, validateIndex, sortReleases, validDate, validVersion, validFilename } from './index-schema.mjs';
 export const MANIFEST='cloudlight-release.json';
 export const LIMIT=2**31;
 const excluded=/(?:symbols?|debug|source|fixture|\.pdb|(?:^|[-_.])(?:service|agent)(?:[-_.]|$))/i;
@@ -31,7 +31,19 @@ export async function verifyAsset(client,asset,expected,temp) {
  // API digest is absent: hash the target stream once, never infer it from ETag.
  const check=await client.download(asset,join(temp,randomUUID()));if(check.sha256!==expected.sha256)throw Error('target hash conflict: '+asset.name);
 }
-const cleanAsset=(asset,data,platform,arch)=>({name:asset.name,size:data.size,sha256:data.sha256,platform,arch,downloadUrl:asset.browser_download_url});
+export function expectedDownloadUrl(repository,tag,name) {
+ if(repository!==TARGET_REPOSITORY||! /^[a-zA-Z0-9._-]+$/.test(tag)||!validFilename(name))throw Error('invalid target download identity');
+ return 'https://github.com/'+repository+'/releases/download/'+encodeURIComponent(tag)+'/'+encodeURIComponent(name);
+}
+// A draft's untagged-* URL is temporary. This URL is only a publication plan
+// until a fresh public API response and its assets have been verified below.
+const cleanAsset=(asset,data,platform,arch,repository,tag)=>({name:asset.name,size:data.size,sha256:data.sha256,platform,arch,downloadUrl:expectedDownloadUrl(repository,tag,asset.name)});
+async function verifyPublishedAssets(client,repository,release,record,temp,assets) {
+ if(release.draft!==false||!validDate(release.published_at)||release.tag_name!==record.tag||release.prerelease!==record.prerelease)throw Error('target release not publicly published or identity/prerelease mismatch');
+ assets??=await client.assets(repository,release.id);
+ for(const expected of record.assets){const actual=assets.find(a=>a.name===expected.name);if(!actual||actual.browser_download_url!==expected.downloadUrl)throw Error('published asset missing/URL mismatch');await verifyAsset(client,actual,expected,temp);}
+ if(!assets.some(a=>a.name===MANIFEST)||assets.length!==record.assets.length+1)throw Error('unexpected public assets');
+}
 async function readManifest(client,asset,temp){if(asset.size>1024*1024)throw Error('manifest too large');const file=join(temp,randomUUID());await client.download(asset,file,{maxBytes:1024*1024});return JSON.parse(await readFile(file,'utf8'));}
 function assertRecord(config,id,record){const errors=validateIndex({schemaVersion:1,generatedAt:new Date().toISOString(),projects:{[id]:{latestVersion:record.version,releases:[record]}}});if(errors.length)throw Error(errors.join('; '));if(!config.sources.some(s=>s.projectId===id)||record.tag!==mirrorTag(id,record.sourceTag))throw Error('manifest identity mismatch');}
 export async function mirrorRelease({config,source,release,sourceClient,targetClient,localFiles}) {
@@ -42,6 +54,9 @@ export async function mirrorRelease({config,source,release,sourceClient,targetCl
   const tag=mirrorTag(source.projectId,release.tag_name),route='/repos/'+config.targetRepository+'/releases';
   stage='target discovery';let target;
   try{target=await targetClient.json(route+'/tags/'+encodeURIComponent(tag));}catch(e){if(e.status!==404)throw e;}
+  // The tag endpoint only exposes published releases. Find an existing draft
+  // by its declared tag before creating anything, including on retry.
+  if(!target){const matches=(await targetClient.releases(config.targetRepository)).filter(r=>r.tag_name===tag);if(matches.length>1)throw Error('multiple target releases for tag: '+tag);target=matches[0];}
   if(!target){stage='target release creation';target=await targetClient.json(route,{method:'POST',body:{tag_name:tag,name:source.displayName+' '+release.tag_name,body:'Public installation packages. SHA-256 and platform information: '+MANIFEST+'.',draft:true,prerelease:release.prerelease||channelOf(release.tag_name,release.prerelease)!=='stable',make_latest:'false'}});}
   if(target.tag_name!==tag)throw Error('target tag mismatch');
   stage='target asset discovery';let existing=await targetClient.assets(config.targetRepository,target.id);
@@ -64,7 +79,7 @@ export async function mirrorRelease({config,source,release,sourceClient,targetCl
     if(found){stage='target asset verification';await verifyAsset(targetClient,found,data,temp);}
     else{stage='asset upload';try{found=await targetClient.upload(target,file,a.name);}catch(e){throw Error('upload failed; leave draft/objects for retry: '+e.message);}}
    }
-   stage='target asset verification';await verifyAsset(targetClient,found,data,temp);record.assets.push(cleanAsset(found,data,item.platform,item.arch));
+   stage='target asset verification';await verifyAsset(targetClient,found,data,temp);record.assets.push(cleanAsset(found,data,item.platform,item.arch,config.targetRepository,tag));
   }
   record.assets.sort((a,b)=>a.name.localeCompare(b.name));assertRecord(config,source.projectId,record);
   if(old&&JSON.stringify(old.release)!==JSON.stringify(record))throw Error('immutable published manifest/content conflict');
@@ -72,7 +87,7 @@ export async function mirrorRelease({config,source,release,sourceClient,targetCl
   if(existing.some(a=>!expectedNames.has(a.name)))throw Error('unexpected target asset; refusing to publish');
   if(!old){stage='verification manifest upload';const file=join(temp,randomUUID());await writeFile(file,JSON.stringify({schemaVersion:1,projectId:source.projectId,release:record},null,2)+'\n');const result=await targetClient.upload(target,file,MANIFEST);await verifyAsset(targetClient,result,await hashFile(file),temp);}
   if(target.draft){stage='target release publication';target=await targetClient.json(route+'/'+target.id,{method:'PATCH',body:{draft:false,prerelease:record.prerelease,make_latest:'false'}});}
-  stage='public release verification';const publicRelease=await targetClient.json(route+'/tags/'+encodeURIComponent(tag),{authenticated:false});if(publicRelease.draft||!validDate(publicRelease.published_at))throw Error('target release not publicly published');
+  stage='public release verification';const publicRelease=await targetClient.json(route+'/tags/'+encodeURIComponent(tag),{authenticated:false});if(publicRelease.id!==target.id)throw Error('public release ID mismatch');await verifyPublishedAssets(targetClient,config.targetRepository,publicRelease,record,temp);
   return {projectId:source.projectId,status:'MIRRORED',version:record.version,skipped};
  }catch(e){throw Error(stage+': '+e.message);}finally{await rm(temp,{recursive:true,force:true});}
 }
@@ -84,9 +99,7 @@ export async function buildIndex(config,targetClient,previous={}) {
   for(const r of published){const source=config.sources.find(s=>r.tag_name.startsWith(s.projectId+'--'));if(!source)continue;
    const assets=await targetClient.assets(config.targetRepository,r.id);const ma=assets.find(a=>a.name===MANIFEST);if(!ma)throw Error('published mirror lacks manifest: '+r.tag_name);
    const m=await readManifest(targetClient,ma,temp);if(m.schemaVersion!==1||m.projectId!==source.projectId)throw Error('invalid public manifest');assertRecord(config,m.projectId,m.release);
-   if(m.release.tag!==r.tag_name||m.release.prerelease!==r.prerelease)throw Error('public release identity/prerelease mismatch');
-   for(const expected of m.release.assets){const actual=assets.find(a=>a.name===expected.name);if(!actual||actual.browser_download_url!==expected.downloadUrl)throw Error('published asset missing/URL mismatch');await verifyAsset(targetClient,actual,expected,temp);}
-   if(assets.length!==m.release.assets.length+1)throw Error('unexpected public assets');
+   await verifyPublishedAssets(targetClient,config.targetRepository,r,m.release,temp,assets);
    projects[m.projectId].releases.push(m.release);
   }
   for(const p of Object.values(projects)){p.releases=sortReleases(p.releases);p.latestVersion=p.releases[0]?.version??null;}
