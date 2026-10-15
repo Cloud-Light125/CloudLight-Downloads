@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-15T12:22:38.517Z",
+  "generatedAt": "2026-10-15T14:11:01.950Z",
   "projects": {
     "cloudlight-wechat": {
       "latestVersion": "2026.906.4",
@@ -379,8 +379,36 @@
       ]
     },
     "cloudlight-clash": {
-      "latestVersion": null,
-      "releases": []
+      "latestVersion": "1.0.0",
+      "releases": [
+        {
+          "version": "1.0.0",
+          "sourceTag": "v1.0.0",
+          "tag": "cloudlight-clash--v1.0.0",
+          "channel": "stable",
+          "sourcePrerelease": false,
+          "prerelease": false,
+          "publishedAt": "2026-10-15T13:57:36Z",
+          "assets": [
+            {
+              "name": "CloudLight-Clash-1.0.0-Windows-x64-Portable.zip",
+              "size": 167026073,
+              "sha256": "525c7f5d26740520a93aaa38e43a711338a074d1c37ab1ecec5b4ff6445c9b69",
+              "platform": "windows",
+              "arch": "x64",
+              "downloadUrl": "https://github.com/Cloud-Light125/CloudLight-Downloads/releases/download/cloudlight-clash--v1.0.0/CloudLight-Clash-1.0.0-Windows-x64-Portable.zip"
+            },
+            {
+              "name": "CloudLight-Clash-1.0.0-Windows-x64-Setup.exe",
+              "size": 136941262,
+              "sha256": "d2b5e0b44d54d128cdc9c6a5d773d60e80403748969a33d89ffac0cba2258589",
+              "platform": "windows",
+              "arch": "x64",
+              "downloadUrl": "https://github.com/Cloud-Light125/CloudLight-Downloads/releases/download/cloudlight-clash--v1.0.0/CloudLight-Clash-1.0.0-Windows-x64-Setup.exe"
+            }
+          ]
+        }
+      ]
     }
   }
 }
