@@ -1,62 +1,358 @@
 {
   "schemaVersion": 1,
-  "generatedAt": null,
+  "generatedAt": "2026-10-15T12:20:35.826Z",
   "projects": {
     "cloudlight-wechat": {
-      "latestVersion": null,
-      "releases": []
+      "latestVersion": "2026.906.4",
+      "releases": [
+        {
+          "version": "2026.906.4",
+          "sourceTag": "v2026.906.4",
+          "tag": "cloudlight-wechat--v2026.906.4",
+          "channel": "stable",
+          "sourcePrerelease": false,
+          "prerelease": false,
+          "publishedAt": "2026-09-06T11:00:03Z",
+          "assets": [
+            {
+              "name": "CloudLight.WeChat-2026.906.4-Setup.dmg",
+              "size": 223887733,
+              "sha256": "413bbdd299f8d3b7410447cfa8fdc18281dbff626b37312f332d78fc6f11df04",
+              "platform": "macos",
+              "arch": "unknown",
+              "downloadUrl": "https://github.com/Cloud-Light125/CloudLight-Downloads/releases/download/cloudlight-wechat--v2026.906.4/CloudLight.WeChat-2026.906.4-Setup.dmg"
+            },
+            {
+              "name": "CloudLight.WeChat-2026.906.4-Setup.exe",
+              "size": 195577329,
+              "sha256": "0adf88b919099fd863262f7ce699600050c86707cca259a1add366526cb78a25",
+              "platform": "windows",
+              "arch": "unknown",
+              "downloadUrl": "https://github.com/Cloud-Light125/CloudLight-Downloads/releases/download/cloudlight-wechat--v2026.906.4/CloudLight.WeChat-2026.906.4-Setup.exe"
+            }
+          ]
+        }
+      ]
     },
     "cloudlight-startup": {
-      "latestVersion": null,
-      "releases": []
+      "latestVersion": "1.0.1",
+      "releases": [
+        {
+          "version": "1.0.1",
+          "sourceTag": "v1.0.1",
+          "tag": "cloudlight-startup--v1.0.1",
+          "channel": "stable",
+          "sourcePrerelease": false,
+          "prerelease": false,
+          "publishedAt": "2026-10-15T07:23:59Z",
+          "assets": [
+            {
+              "name": "CloudLight-Startup-Setup-1.0.1-x64.exe",
+              "size": 127503772,
+              "sha256": "4b8f4721fbf51014ac45a40b366d383201ba909157c7ba28d42c9d27941b6a39",
+              "platform": "windows",
+              "arch": "x64",
+              "downloadUrl": "https://github.com/Cloud-Light125/CloudLight-Downloads/releases/download/cloudlight-startup--v1.0.1/CloudLight-Startup-Setup-1.0.1-x64.exe"
+            }
+          ]
+        }
+      ]
     },
     "cloudlight-blizzard": {
-      "latestVersion": null,
-      "releases": []
+      "latestVersion": "2.1.10",
+      "releases": [
+        {
+          "version": "2.1.10",
+          "sourceTag": "v2.1.10",
+          "tag": "cloudlight-blizzard--v2.1.10",
+          "channel": "stable",
+          "sourcePrerelease": false,
+          "prerelease": false,
+          "publishedAt": "2026-10-13T12:01:16Z",
+          "assets": [
+            {
+              "name": "CloudLight-Blizzard-2.1.10-win-x64-Setup.exe",
+              "size": 99727254,
+              "sha256": "d4f21a0782998a87d46874430f20852abf7a6435633344b67c0d5bc44be2476e",
+              "platform": "windows",
+              "arch": "x64",
+              "downloadUrl": "https://github.com/Cloud-Light125/CloudLight-Downloads/releases/download/cloudlight-blizzard--v2.1.10/CloudLight-Blizzard-2.1.10-win-x64-Setup.exe"
+            }
+          ]
+        }
+      ]
     },
     "cloudlight-video-compressor": {
-      "latestVersion": null,
-      "releases": []
+      "latestVersion": "1.3.3",
+      "releases": [
+        {
+          "version": "1.3.3",
+          "sourceTag": "v1.3.3",
+          "tag": "cloudlight-video-compressor--v1.3.3",
+          "channel": "stable",
+          "sourcePrerelease": false,
+          "prerelease": false,
+          "publishedAt": "2026-09-16T07:56:27Z",
+          "assets": [
+            {
+              "name": "CloudLight-Video-Compressor-Setup-x64-1.3.3.exe",
+              "size": 169669030,
+              "sha256": "840d82327aae23b2f508bf9402ccccadad3f5d968706e91f82eca8bff6fa1602",
+              "platform": "windows",
+              "arch": "x64",
+              "downloadUrl": "https://github.com/Cloud-Light125/CloudLight-Downloads/releases/download/cloudlight-video-compressor--v1.3.3/CloudLight-Video-Compressor-Setup-x64-1.3.3.exe"
+            }
+          ]
+        }
+      ]
     },
     "cloudlight-automator": {
-      "latestVersion": null,
-      "releases": []
+      "latestVersion": "0.1.0",
+      "releases": [
+        {
+          "version": "0.1.0",
+          "sourceTag": "v0.1.0",
+          "tag": "cloudlight-automator--v0.1.0",
+          "channel": "stable",
+          "sourcePrerelease": false,
+          "prerelease": false,
+          "publishedAt": "2026-07-28T18:41:22Z",
+          "assets": [
+            {
+              "name": "CloudLight-Automator-0.1.0-Windows-x64-Portable.zip",
+              "size": 518016846,
+              "sha256": "1cf1f719f4c1a8495956f37e4686f3c5fdbc8221e941980a7d321920ab1142b1",
+              "platform": "windows",
+              "arch": "x64",
+              "downloadUrl": "https://github.com/Cloud-Light125/CloudLight-Downloads/releases/download/cloudlight-automator--v0.1.0/CloudLight-Automator-0.1.0-Windows-x64-Portable.zip"
+            },
+            {
+              "name": "CloudLight-Automator-0.1.0-Windows-x64-Setup.exe",
+              "size": 406876588,
+              "sha256": "8f24879825fe666a042d20bcc4b2b22acf0a24e90828fdc4e7078f70416bbd9b",
+              "platform": "windows",
+              "arch": "x64",
+              "downloadUrl": "https://github.com/Cloud-Light125/CloudLight-Downloads/releases/download/cloudlight-automator--v0.1.0/CloudLight-Automator-0.1.0-Windows-x64-Setup.exe"
+            }
+          ]
+        }
+      ]
     },
     "cloudlight-codex-bridge": {
-      "latestVersion": null,
-      "releases": []
+      "latestVersion": "1.3.5",
+      "releases": [
+        {
+          "version": "1.3.5",
+          "sourceTag": "v1.3.5",
+          "tag": "cloudlight-codex-bridge--v1.3.5",
+          "channel": "stable",
+          "sourcePrerelease": false,
+          "prerelease": false,
+          "publishedAt": "2026-09-22T04:28:34Z",
+          "assets": [
+            {
+              "name": "CloudLight-CodexBridge-Setup-1.3.5-win-x64.exe",
+              "size": 55413470,
+              "sha256": "e6ea86069e25dd906c14f9c38c829fe9f1bad377bd657ed035857a75fd06fa4d",
+              "platform": "windows",
+              "arch": "x64",
+              "downloadUrl": "https://github.com/Cloud-Light125/CloudLight-Downloads/releases/download/cloudlight-codex-bridge--v1.3.5/CloudLight-CodexBridge-Setup-1.3.5-win-x64.exe"
+            }
+          ]
+        }
+      ]
     },
     "cloudlight-xiaomi": {
-      "latestVersion": null,
-      "releases": []
+      "latestVersion": "2.1.5",
+      "releases": [
+        {
+          "version": "2.1.5",
+          "sourceTag": "v2.1.5",
+          "tag": "cloudlight-xiaomi--v2.1.5",
+          "channel": "stable",
+          "sourcePrerelease": false,
+          "prerelease": false,
+          "publishedAt": "2026-09-10T14:02:37Z",
+          "assets": [
+            {
+              "name": "CloudLight-XiaoMi-Setup-2.1.5.exe",
+              "size": 62557053,
+              "sha256": "629eccf4ef9ad651d9851a67d5371760e2501b5d0bbbe43f595a89800efefe3d",
+              "platform": "windows",
+              "arch": "x64",
+              "downloadUrl": "https://github.com/Cloud-Light125/CloudLight-Downloads/releases/download/cloudlight-xiaomi--v2.1.5/CloudLight-XiaoMi-Setup-2.1.5.exe"
+            }
+          ]
+        }
+      ]
     },
     "twitter-x-media-renamer": {
-      "latestVersion": null,
-      "releases": []
+      "latestVersion": "1.0.0",
+      "releases": [
+        {
+          "version": "1.0.0",
+          "sourceTag": "v1.0.0",
+          "tag": "twitter-x-media-renamer--v1.0.0",
+          "channel": "stable",
+          "sourcePrerelease": false,
+          "prerelease": false,
+          "publishedAt": "2026-08-11T04:35:04Z",
+          "assets": [
+            {
+              "name": "TwitterXMediaRenamer-v1.0.0-win-x64.zip",
+              "size": 12394760,
+              "sha256": "f5e6d31c97b56eedded2aec8fe7ec725f9841a8783ee05ae695cb345ebf1555e",
+              "platform": "windows",
+              "arch": "x64",
+              "downloadUrl": "https://github.com/Cloud-Light125/CloudLight-Downloads/releases/download/twitter-x-media-renamer--v1.0.0/TwitterXMediaRenamer-v1.0.0-win-x64.zip"
+            }
+          ]
+        }
+      ]
     },
     "heybox-post-exporter": {
-      "latestVersion": null,
-      "releases": []
+      "latestVersion": "0.1.0",
+      "releases": [
+        {
+          "version": "0.1.0",
+          "sourceTag": "v0.1.0",
+          "tag": "heybox-post-exporter--v0.1.0",
+          "channel": "stable",
+          "sourcePrerelease": false,
+          "prerelease": false,
+          "publishedAt": "2026-08-11T08:31:30Z",
+          "assets": [
+            {
+              "name": "HeyboxPostExporter.exe",
+              "size": 20620112,
+              "sha256": "2d6d28bccfc37f07619fa642d606bbd20824f1844082b1cc86242799e64b5746",
+              "platform": "windows",
+              "arch": "x64",
+              "downloadUrl": "https://github.com/Cloud-Light125/CloudLight-Downloads/releases/download/heybox-post-exporter--v0.1.0/HeyboxPostExporter.exe"
+            }
+          ]
+        }
+      ]
     },
     "cloudlight-overwatch-youtube-watcher": {
-      "latestVersion": null,
-      "releases": []
+      "latestVersion": "3.0.1",
+      "releases": [
+        {
+          "version": "3.0.1",
+          "sourceTag": "v3.0.1",
+          "tag": "cloudlight-overwatch-youtube-watcher--v3.0.1",
+          "channel": "stable",
+          "sourcePrerelease": false,
+          "prerelease": false,
+          "publishedAt": "2026-08-20T07:38:58Z",
+          "assets": [
+            {
+              "name": "CloudLight-Overwatch-YouTube-Watcher-Setup-v3.0.1-x64.exe",
+              "size": 47323411,
+              "sha256": "698483ee0507f4d4f498b4b5d02cccacbfad095d7ceeb433f69ecb70bd3940d8",
+              "platform": "windows",
+              "arch": "x64",
+              "downloadUrl": "https://github.com/Cloud-Light125/CloudLight-Downloads/releases/download/cloudlight-overwatch-youtube-watcher--v3.0.1/CloudLight-Overwatch-YouTube-Watcher-Setup-v3.0.1-x64.exe"
+            }
+          ]
+        }
+      ]
     },
     "cloudlight-soop-drops-miner": {
-      "latestVersion": null,
-      "releases": []
+      "latestVersion": "1.0.5",
+      "releases": [
+        {
+          "version": "1.0.5",
+          "sourceTag": "v1.0.5",
+          "tag": "cloudlight-soop-drops-miner--v1.0.5",
+          "channel": "stable",
+          "sourcePrerelease": false,
+          "prerelease": false,
+          "publishedAt": "2026-08-20T07:15:59Z",
+          "assets": [
+            {
+              "name": "CloudLight_SOOP_Drops_Miner.exe",
+              "size": 32105443,
+              "sha256": "72d2f554c59da2cafb4ad8312d38df2c77ddac4089e372fd850668b10e400df5",
+              "platform": "windows",
+              "arch": "unknown",
+              "downloadUrl": "https://github.com/Cloud-Light125/CloudLight-Downloads/releases/download/cloudlight-soop-drops-miner--v1.0.5/CloudLight_SOOP_Drops_Miner.exe"
+            }
+          ]
+        }
+      ]
     },
     "microsoft-pinyin-cleaner": {
-      "latestVersion": null,
-      "releases": []
+      "latestVersion": "1.0.2",
+      "releases": [
+        {
+          "version": "1.0.2",
+          "sourceTag": "v1.0.2",
+          "tag": "microsoft-pinyin-cleaner--v1.0.2",
+          "channel": "stable",
+          "sourcePrerelease": false,
+          "prerelease": false,
+          "publishedAt": "2026-07-29T14:58:58Z",
+          "assets": [
+            {
+              "name": "MicrosoftPinyinCleaner.exe",
+              "size": 79164326,
+              "sha256": "1547e060625397f68306fa8115ef1da8c6bd5b8395524587445c14a723b23951",
+              "platform": "windows",
+              "arch": "x64",
+              "downloadUrl": "https://github.com/Cloud-Light125/CloudLight-Downloads/releases/download/microsoft-pinyin-cleaner--v1.0.2/MicrosoftPinyinCleaner.exe"
+            }
+          ]
+        }
+      ]
     },
     "power-settings-manager": {
-      "latestVersion": null,
-      "releases": []
+      "latestVersion": "1.1.0",
+      "releases": [
+        {
+          "version": "1.1.0",
+          "sourceTag": "v1.1.0",
+          "tag": "power-settings-manager--v1.1.0",
+          "channel": "stable",
+          "sourcePrerelease": false,
+          "prerelease": false,
+          "publishedAt": "2026-07-30T04:52:22Z",
+          "assets": [
+            {
+              "name": "PowerSettingsManager-v1.1.0-win-x64-portable.zip",
+              "size": 65421859,
+              "sha256": "8ff3bf4ac41aa5fce3278b70c32e372a2d2aef2db3da8ac2589cf5f229c3e5b0",
+              "platform": "windows",
+              "arch": "x64",
+              "downloadUrl": "https://github.com/Cloud-Light125/CloudLight-Downloads/releases/download/power-settings-manager--v1.1.0/PowerSettingsManager-v1.1.0-win-x64-portable.zip"
+            }
+          ]
+        }
+      ]
     },
     "mobile-hotspot-controller": {
-      "latestVersion": null,
-      "releases": []
+      "latestVersion": "1.0.0",
+      "releases": [
+        {
+          "version": "1.0.0",
+          "sourceTag": "v1.0.0",
+          "tag": "mobile-hotspot-controller--v1.0.0",
+          "channel": "stable",
+          "sourcePrerelease": false,
+          "prerelease": false,
+          "publishedAt": "2026-07-24T11:38:39Z",
+          "assets": [
+            {
+              "name": "MobileHotspotController.exe",
+              "size": 78555622,
+              "sha256": "d6694a262b29f58fd2cb877a4ed57d1dc008feb1e479c8726c5f18baea489b10",
+              "platform": "windows",
+              "arch": "unknown",
+              "downloadUrl": "https://github.com/Cloud-Light125/CloudLight-Downloads/releases/download/mobile-hotspot-controller--v1.0.0/MobileHotspotController.exe"
+            }
+          ]
+        }
+      ]
     },
     "tdm-claim-toggle-patcher": {
       "latestVersion": null,
