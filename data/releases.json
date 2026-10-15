@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-15T12:20:35.826Z",
+  "generatedAt": "2026-10-15T12:22:38.517Z",
   "projects": {
     "cloudlight-wechat": {
       "latestVersion": "2026.906.4",
@@ -355,8 +355,28 @@
       ]
     },
     "tdm-claim-toggle-patcher": {
-      "latestVersion": null,
-      "releases": []
+      "latestVersion": "1.2.1",
+      "releases": [
+        {
+          "version": "1.2.1",
+          "sourceTag": "v1.2.1",
+          "tag": "tdm-claim-toggle-patcher--v1.2.1",
+          "channel": "stable",
+          "sourcePrerelease": false,
+          "prerelease": false,
+          "publishedAt": "2026-07-29T14:38:48Z",
+          "assets": [
+            {
+              "name": "TDM-Claim-Toggle-Patcher.exe",
+              "size": 13376126,
+              "sha256": "306c41c5fafffc3a689c9296beaa862f7377f162ea8a20554ce3b55f67ad5d41",
+              "platform": "windows",
+              "arch": "unknown",
+              "downloadUrl": "https://github.com/Cloud-Light125/CloudLight-Downloads/releases/download/tdm-claim-toggle-patcher--v1.2.1/TDM-Claim-Toggle-Patcher.exe"
+            }
+          ]
+        }
+      ]
     }
   }
 }
