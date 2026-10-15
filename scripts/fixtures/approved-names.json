@@ -45,5 +45,9 @@
   ],
   "tdm-claim-toggle-patcher": [
     "TDM-Claim-Toggle-Patcher.exe"
+  ],
+  "cloudlight-clash": [
+    "CloudLight-Clash-1.0.0-Windows-x64-Setup.exe",
+    "CloudLight-Clash-1.0.0-Windows-x64-Portable.zip"
   ]
 }

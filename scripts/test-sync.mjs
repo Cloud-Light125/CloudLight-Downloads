@@ -32,9 +32,18 @@ class MockGitHub {
  add(s,{tag='v1.0.0',date='2026-10-01T00:00:00Z',prerelease=false,assets=names[s.projectId]}={}){const r={id:this.id++,repo:s.repository,tag_name:tag,published_at:date,prerelease,draft:false,assets:assets.map(n=>this.asset(n))};this.rows.push(r);return r;}
 }
 const empty=()=>({schemaVersion:1,generatedAt:null,projects:Object.fromEntries(config.sources.map(s=>[s.projectId,{latestVersion:null,releases:[]}]))});
+test('CloudLight Clash only mirrors Windows x64 Setup and Portable packages',()=>{
+ const source=config.sources.find(s=>s.projectId==='cloudlight-clash');
+ const rejected=['SHA256SUMS.txt','SOURCE.zip','logs.zip','CloudLight-Clash-1.0.0-Windows-x64-Debug.zip','CloudLight-Clash-1.0.0-Windows-arm64-Portable.zip','CloudLight-Clash-1.0.0-Windows-x64-Portable.zip.sha256','other.zip'];
+ const assets=[...names[source.projectId],...rejected].map(name=>({name,size:100}));
+ const {selected,skipped}=selectAssets(source,{assets});
+ assert.deepEqual(selected.map(item=>item.asset.name),names[source.projectId]);
+ assert.ok(selected.every(item=>item.platform==='windows'&&item.arch==='x64'));
+ assert.deepEqual(skipped.map(item=>item.name),rejected);
+});
 async function run(source,target,previous=empty(),failIndex=false){let index=previous;const summary=await syncAll({config,sourceClient:source,targetClient:target,previous,writeIndex:async i=>{if(failIndex)throw Error('disk/index failure');index=i;}});return {summary,index};}
-test('15 mappings, latest RC/date ordering, filtering and limits',async()=>{
- assert.deepEqual(validateConfig(config),[]);assert.equal(config.sources.length,15);
+test('16 mappings, latest RC/date ordering, filtering and limits',async()=>{
+ assert.deepEqual(validateConfig(config),[]);assert.equal(config.sources.length,16);
  const s=config.sources.find(s=>s.projectId==='cloudlight-startup');const client=new MockGitHub();const stable=client.add(s,{tag:'v10.0.0'});const rc=client.add(s,{tag:'v0.2.0-rc.1',date:'2026-10-02T00:00:00Z',prerelease:true});
  assert.equal(chooseRelease([stable,rc],s.selection),rc);assert.equal(chooseRelease([stable,rc],'stable-only'),stable);assert.equal(chooseRelease([{...rc,draft:true}],s.selection),undefined);
  assert.throws(()=>chooseRelease([{...rc,published_at:null}],s.selection));
@@ -45,9 +54,9 @@ test('15 mappings, latest RC/date ordering, filtering and limits',async()=>{
  assert.equal(expectedDownloadUrl(config.targetRepository,'cloudlight-startup--v1.0.1','安装包 +#.exe'),'https://github.com/Cloud-Light125/CloudLight-Downloads/releases/download/cloudlight-startup--v1.0.1/%E5%AE%89%E8%A3%85%E5%8C%85%20%2B%23.exe');
  assert.throws(()=>expectedDownloadUrl('other/repository','tag','Setup.exe'),/invalid target/);
 });
-test('all 15 sources, multiplatform, idempotency, missing asset repair, history',async()=>{
+test('all 16 sources, multiplatform, idempotency, missing asset repair, history',async()=>{
  const source=new MockGitHub(),target=new MockGitHub();for(const s of config.sources)source.add(s);
- let {summary,index}=await run(source,target);assert.equal(summary.filter(r=>r.status==='MIRRORED').length,15);assert.equal(source.checked.length,15);assert.deepEqual(validateIndex(index,config.sources.map(s=>s.projectId)),[]);
+ let {summary,index}=await run(source,target);assert.equal(summary.filter(r=>r.status==='MIRRORED').length,16);assert.equal(source.checked.length,16);assert.deepEqual(validateIndex(index,config.sources.map(s=>s.projectId)),[]);
  const uploads=target.uploads,downloads=source.downloads;const again=await run(source,target,index);assert.deepEqual(again.index,index);assert.equal(target.uploads,uploads);assert.equal(source.downloads,downloads);
  const start=config.sources.find(s=>s.projectId==='cloudlight-startup');const r=target.rows.find(r=>r.tag_name.startsWith(start.projectId+'--'));r.assets=r.assets.filter(a=>a.name===MANIFEST);
  const repaired=await run(source,target,index);assert.equal(repaired.summary.filter(r=>r.status==='ERROR').length,0);assert.equal(target.uploads,uploads+1);
@@ -55,7 +64,7 @@ test('all 15 sources, multiplatform, idempotency, missing asset repair, history'
 });
 test('no release and latest lacking installers never relabel older versions',async()=>{
  const source=new MockGitHub(),target=new MockGitHub(),s=config.sources[1];source.add(s);source.add(s,{tag:'v2.0.0',date:'2026-10-02T00:00:00Z',assets:['symbols.zip']});
- const result=await run(source,target);assert.equal(result.summary.filter(r=>r.status==='NO_RELEASE').length,14);assert.equal(result.summary[1].status,'ERROR');assert.equal(target.rows.length,0);assert.equal(result.index.projects[s.projectId].latestVersion,null);
+ const result=await run(source,target);assert.equal(result.summary.filter(r=>r.status==='NO_RELEASE').length,15);assert.equal(result.summary[1].status,'ERROR');assert.equal(target.rows.length,0);assert.equal(result.index.projects[s.projectId].latestVersion,null);
 });
 test('download/upload failures keep draft and retry safely; one source failure does not stop others',async()=>{
  for(const failure of ['failDownload','failUpload']){const source=new MockGitHub(),target=new MockGitHub();source.add(config.sources[0]);source.add(config.sources[1]);(failure==='failDownload'?source:target)[failure]=true;
@@ -84,7 +93,7 @@ test('second installer upload failure never publishes a partially complete relea
  const second=await run(source,target,first.index);assert.equal(second.summary[0].status,'MIRRORED');assert.equal(target.rows[0].draft,false);assert.equal(target.rows[0].assets.length,3);
 });
 
-test('recover 15 existing untagged drafts without downloading or uploading installers again',async()=>{
+test('recover 16 existing untagged drafts without downloading or uploading installers again',async()=>{
  const source=new MockGitHub(),target=new MockGitHub(),installerIds=new Map();
  for(const s of config.sources){
   const release=source.add(s);
@@ -107,10 +116,10 @@ test('recover 15 existing untagged drafts without downloading or uploading insta
   if(options.method==='PATCH'){const draft=target.rows.find(r=>r.id===Number(route.split('/').at(-1)));assert.ok(draft.assets.some(a=>a.name===MANIFEST));}
   const result=await json(route,options);if(options.authenticated===false){assert.equal(result.draft,false);publicChecks++;}return result;
  };
- const first=await run(source,target);assert.equal(first.summary.filter(r=>r.status==='MIRRORED').length,15);assert.equal(publicChecks,15);assert.equal(manifests,15);assert.equal(source.downloads,0);assert.equal(target.rows.length,15);
+ const first=await run(source,target);assert.equal(first.summary.filter(r=>r.status==='MIRRORED').length,16);assert.equal(publicChecks,16);assert.equal(manifests,16);assert.equal(source.downloads,0);assert.equal(target.rows.length,16);
  for(const r of target.rows){assert.equal(r.draft,false);assert.deepEqual(r.assets.filter(a=>a.name!==MANIFEST).map(a=>a.id),installerIds.get(r.id));}
  for(const p of Object.values(first.index.projects)){assert.equal(p.releases.length,1);for(const a of p.releases[0].assets)assert.ok(!a.downloadUrl.includes('/untagged-'));}
- const again=await run(source,target,first.index);assert.deepEqual(again.index,first.index);assert.equal(again.summary.filter(r=>r.status==='MIRRORED').length,15);assert.equal(target.rows.length,15);assert.equal(manifests,15);assert.equal(source.downloads,0);
+ const again=await run(source,target,first.index);assert.deepEqual(again.index,first.index);assert.equal(again.summary.filter(r=>r.status==='MIRRORED').length,16);assert.equal(target.rows.length,16);assert.equal(manifests,16);assert.equal(source.downloads,0);
 });
 
 test('published URL mismatch cannot enter the index and recovers without reupload',async()=>{

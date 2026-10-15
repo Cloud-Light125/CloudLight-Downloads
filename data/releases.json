@@ -377,6 +377,10 @@
           ]
         }
       ]
+    },
+    "cloudlight-clash": {
+      "latestVersion": null,
+      "releases": []
     }
   }
 }

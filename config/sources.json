@@ -246,6 +246,27 @@
           "arch": "unknown"
         }
       ]
+    },
+    {
+      "projectId": "cloudlight-clash",
+      "repository": "Cloud-Light125/CloudLight-Clash",
+      "displayName": "CloudLight Clash",
+      "enabled": true,
+      "selection": "latest-published",
+      "verifiedAt": "2026-10-15",
+      "evidence": "Authenticated published v1.0.0 release, exact asset names, sizes and GitHub SHA-256 digests checked against local packages; both packages inspected for GPL text, matching application source and third-party notices.",
+      "assetRules": [
+        {
+          "pattern": "^CloudLight-Clash-[0-9][A-Za-z0-9.+-]*-Windows-x64-Setup\\.exe$",
+          "platform": "windows",
+          "arch": "x64"
+        },
+        {
+          "pattern": "^CloudLight-Clash-[0-9][A-Za-z0-9.+-]*-Windows-x64-Portable\\.zip$",
+          "platform": "windows",
+          "arch": "x64"
+        }
+      ]
     }
   ]
 }
