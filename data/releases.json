@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-15T14:11:01.950Z",
+  "generatedAt": "2026-11-18T07:43:51.648Z",
   "projects": {
     "cloudlight-wechat": {
       "latestVersion": "2026.906.4",
@@ -139,8 +139,27 @@
       ]
     },
     "cloudlight-codex-bridge": {
-      "latestVersion": "1.3.5",
+      "latestVersion": "1.3.6",
       "releases": [
+        {
+          "version": "1.3.6",
+          "sourceTag": "v1.3.6",
+          "tag": "cloudlight-codex-bridge--v1.3.6",
+          "channel": "stable",
+          "sourcePrerelease": false,
+          "prerelease": false,
+          "publishedAt": "2026-11-17T12:43:16Z",
+          "assets": [
+            {
+              "name": "CloudLight-CodexBridge-Setup-1.3.6-win-x64.exe",
+              "size": 55281065,
+              "sha256": "5ab6f9272fee4944fd9c3d3e4aee94e6ff15978d1c1be6f8fe6378e008f9e877",
+              "platform": "windows",
+              "arch": "x64",
+              "downloadUrl": "https://github.com/Cloud-Light125/CloudLight-Downloads/releases/download/cloudlight-codex-bridge--v1.3.6/CloudLight-CodexBridge-Setup-1.3.6-win-x64.exe"
+            }
+          ]
+        },
         {
           "version": "1.3.5",
           "sourceTag": "v1.3.5",
