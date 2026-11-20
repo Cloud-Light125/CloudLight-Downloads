@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T20:49:56.349Z",
+  "generatedAt": "2026-11-20T07:31:45.267Z",
   "projects": {
     "cloudlight-wechat": {
       "latestVersion": "2026.906.4",
@@ -59,8 +59,27 @@
       ]
     },
     "cloudlight-blizzard": {
-      "latestVersion": "3.0.1",
+      "latestVersion": "3.0.3",
       "releases": [
+        {
+          "version": "3.0.3",
+          "sourceTag": "v3.0.3",
+          "tag": "cloudlight-blizzard--v3.0.3",
+          "channel": "stable",
+          "sourcePrerelease": false,
+          "prerelease": false,
+          "publishedAt": "2026-11-20T03:12:38Z",
+          "assets": [
+            {
+              "name": "CloudLight-Blizzard-3.0.3-win-x64-Setup.exe",
+              "size": 152405818,
+              "sha256": "a56392438e7998e592cf70758bdfce6c7fda0b1c0e51dbaf843e3064ace64206",
+              "platform": "windows",
+              "arch": "x64",
+              "downloadUrl": "https://github.com/Cloud-Light125/CloudLight-Downloads/releases/download/cloudlight-blizzard--v3.0.3/CloudLight-Blizzard-3.0.3-win-x64-Setup.exe"
+            }
+          ]
+        },
         {
           "version": "3.0.1",
           "sourceTag": "v3.0.1",
