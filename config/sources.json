@@ -267,6 +267,133 @@
           "arch": "x64"
         }
       ]
+    },
+    {
+      "projectId": "cloudlight-secure-backup",
+      "repository": null,
+      "displayName": "CloudLight Secure Backup",
+      "enabled": false,
+      "selection": "latest-published",
+      "verifiedAt": "2026-11-26",
+      "evidence": "Local source, build/version files, current acceptance records and authenticated GitHub Release metadata reviewed.",
+      "releaseBlockedReason": "Latest source 0.3.11 has no verified matching public packages; earlier local packages are not silently promoted.",
+      "assetRules": [
+        {
+          "pattern": "^CloudLightSecureBackup-[0-9][\\w.+-]*-win-x64-setup\\.exe$",
+          "platform": "windows",
+          "arch": "x64"
+        },
+        {
+          "pattern": "^CloudLightSecureBackup-[0-9][\\w.+-]*-win-x64-portable\\.zip$",
+          "platform": "windows",
+          "arch": "x64"
+        },
+        {
+          "pattern": "^CloudLightSecureBackup-[0-9][\\w.+-]*-fnos-x86_64\\.fpk$",
+          "platform": "fnos",
+          "arch": "x64"
+        }
+      ]
+    },
+    {
+      "projectId": "x-media-monitor",
+      "repository": null,
+      "displayName": "X Media Monitor",
+      "enabled": false,
+      "selection": "latest-published",
+      "verifiedAt": "2026-11-26",
+      "evidence": "Local source, build/version files, current acceptance records and authenticated GitHub Release metadata reviewed.",
+      "releaseBlockedReason": "No audited public binary/deployment package; source-only local recipe must not expose unpublished source or personal data.",
+      "assetRules": [
+        {
+          "pattern": "^x-media-monitor-[0-9][\\w.+-]*-deploy\\.zip$",
+          "platform": "linux",
+          "arch": "unknown"
+        }
+      ]
+    },
+    {
+      "projectId": "cloudlight-qq-history",
+      "repository": "Cloud-Light125/CloudLight-QQ-History",
+      "displayName": "CloudLight QQ History",
+      "enabled": false,
+      "selection": "latest-published",
+      "verifiedAt": "2026-11-26",
+      "evidence": "Local source, build/version files, current acceptance records and authenticated GitHub Release metadata reviewed.",
+      "releaseBlockedReason": "rc.58 is a private prerelease, unsigned; full frontend contract failure and public package license review remain.",
+      "assetRules": [
+        {
+          "pattern": "^CloudLight-QQ-History-[0-9][\\w.+-]*-win-x64-(?:setup|portable)\\.exe$",
+          "platform": "windows",
+          "arch": "x64"
+        }
+      ]
+    },
+    {
+      "projectId": "cloudlight-xiaomi-docker",
+      "repository": "Cloud-Light125/CloudLight-XiaoMi-Docker",
+      "displayName": "CloudLight XiaoMi Docker",
+      "enabled": false,
+      "selection": "latest-published",
+      "verifiedAt": "2026-11-26",
+      "evidence": "Local source, build/version files, current acceptance records and authenticated GitHub Release metadata reviewed.",
+      "releaseBlockedReason": "Existing public 2.1.6 release is audited separately. Automated source synchronization stays disabled until its asset set matches the reviewed public bundle.",
+      "assetRules": [
+        {
+          "pattern": "^cloudlight-xiaomi-amd64\\.tar$",
+          "platform": "linux",
+          "arch": "x64"
+        },
+        {
+          "pattern": "^cloudlight-xiaomi-amd64\\.tar\\.sha256$",
+          "platform": "linux",
+          "arch": "x64"
+        },
+        {
+          "pattern": "^compose\\.yml$",
+          "platform": "linux",
+          "arch": "x64"
+        },
+        {
+          "pattern": "^docker-setup\\.md$",
+          "platform": "linux",
+          "arch": "x64"
+        }
+      ]
+    },
+    {
+      "projectId": "colorduo-dualsim",
+      "repository": "Cloud-Light125/ColorDuo-Private",
+      "displayName": "ColorDuo dual-SIM repair",
+      "enabled": false,
+      "selection": "latest-published",
+      "verifiedAt": "2026-11-26",
+      "evidence": "Local source, build/version files, current acceptance records and authenticated GitHub Release metadata reviewed.",
+      "releaseBlockedReason": "GPL-3.0 corresponding modified source is private; test signing certificate and incomplete dual-SIM device matrix. No public APK.",
+      "assetRules": [
+        {
+          "pattern": "^ColorDuo-[0-9][\\w.+-]*\\.apk$",
+          "platform": "android",
+          "arch": "unknown"
+        }
+      ]
+    },
+    {
+      "projectId": "sesame-m-cloudlight",
+      "repository": null,
+      "displayName": "Sesame-M CloudLight repair",
+      "enabled": false,
+      "selection": "latest-published",
+      "verifiedAt": "2026-11-26",
+      "evidence": "Local source, build/version files, current acceptance records and authenticated GitHub Release metadata reviewed.",
+      "releaseBlockedReason": "GPL-3.0 corresponding modified source delivery and complete device/version acceptance are not ready. No public APK.",
+      "assetRules": [
+        {
+          "pattern": "^Sesame-M-[0-9][\\w.+-]*-arm64-v8a-release\\.apk$",
+          "platform": "android",
+          "arch": "arm64"
+        }
+      ]
     }
   ]
 }

@@ -1,17 +1,20 @@
 // Shared public index contract. Keep the website copy byte-identical.
 export const TARGET_REPOSITORY = 'Cloud-Light125/CloudLight-Downloads';
 export const CHANNELS = ['stable','rc','beta','alpha','unknown'];
-export const PLATFORMS = ['windows','macos','linux'];
+export const PLATFORMS = ['windows','macos','linux','fnos','android'];
 export const ARCHITECTURES = ['x64','arm64','x86','universal','unknown'];
 export const CHANNEL_LABELS = {stable:'Stable · 正式版',rc:'Release Candidate · 预发布',beta:'Beta · 测试版',alpha:'Alpha · 测试版',unknown:'发布类型未确认 / 其他预发布'};
-export const PLATFORM_LABELS = {windows:'Windows',macos:'macOS',linux:'Linux'};
+export const PLATFORM_LABELS = {windows:'Windows',macos:'macOS',linux:'Linux',fnos:'飞牛 fnOS',android:'Android'};
 export const ARCH_LABELS = {x64:'x64',arm64:'ARM64',x86:'x86',universal:'Universal',unknown:'架构未确认'};
 export const validFilename = n => typeof n === 'string' && n.length > 0 && n.length <= 240 && !/[\x00-\x1f\x7f/\\]/.test(n) && n !== '.' && n !== '..' && !/[. ]$/.test(n);
 export const validVersion = v => typeof v === 'string' && v.length > 0 && v.length <= 200 && !/[\x00-\x1f\x7f]/.test(v);
 export const validDate = d => typeof d === 'string' && /^\d{4}-\d{2}-\d{2}T/.test(d) && Number.isFinite(Date.parse(d));
 export const sortReleases = rs => [...rs].sort((a,b) => Date.parse(b.publishedAt)-Date.parse(a.publishedAt) || a.version.localeCompare(b.version,'en',{numeric:true}));
 export const formatBytes = b => b < 1024 ? b+' B' : b < 1048576 ? (b/1024).toFixed(1)+' KiB' : b < 1073741824 ? (b/1048576).toFixed(1)+' MiB' : (b/1073741824).toFixed(2)+' GiB';
-export const assetLabel = a => /\.dmg$/i.test(a.name) ? 'macOS 安装包' : /\.msi$/i.test(a.name) || /(?:setup|installer).*\.exe$/i.test(a.name) ? 'Windows 安装程序' : /\.exe$/i.test(a.name) ? 'Windows 便携版' : /portable/i.test(a.name) ? '便携版压缩包' : '压缩包';
+// File kinds remain constrained; configuration still needs one exact matching rule.
+export const validPackageName = n => /\.(exe|msi|zip|dmg|tar|tar\.gz|fpk|apk)$/i.test(n) || /^(?:compose\.ya?ml|docker-setup\.md)$/i.test(n) || /\.(?:exe|zip|tar|tar\.gz|fpk|apk)\.sha256$/i.test(n);
+export const platformMatches = (n,p) => /\.(exe|msi)$/i.test(n) ? p === 'windows' : /\.dmg$/i.test(n) ? p === 'macos' : /\.apk$/i.test(n) ? p === 'android' : /\.fpk$/i.test(n) ? p === 'fnos' : /\.tar(?:\.gz)?$/i.test(n) || /^(?:compose\.ya?ml|docker-setup\.md)$/i.test(n) ? p === 'linux' : true;
+export const assetLabel = a => /\.sha256$/i.test(a.name) ? 'SHA-256 校验文件' : /^compose\.ya?ml$/i.test(a.name) ? 'Docker Compose 部署文件' : /^docker-setup\.md$/i.test(a.name) ? 'Docker 部署说明' : /\.tar(?:\.gz)?$/i.test(a.name) ? 'Docker 离线镜像' : /\.fpk$/i.test(a.name) ? '飞牛原生安装包' : /\.apk$/i.test(a.name) ? 'Android APK' : /\.dmg$/i.test(a.name) ? 'macOS 安装包' : /\.msi$/i.test(a.name) || /(?:setup|installer).*\.exe$/i.test(a.name) ? 'Windows 安装程序' : /\.exe$/i.test(a.name) ? 'Windows 便携版' : /portable/i.test(a.name) ? '便携版压缩包' : '部署包 / 压缩包';
 export function allowedDownloadUrl(value) {
   try { const u = new URL(value); return u.protocol === 'https:' && u.hostname === 'github.com' && !u.port && !u.username && !u.password && !u.search && !u.hash && /^\/Cloud-Light125\/CloudLight-Downloads\/releases\/download\/[^/]+\/[^/]+$/.test(u.pathname); } catch { return false; }
 }
@@ -42,11 +45,11 @@ export function validateIndex(index, allowedIds) {
       for (const a of r.assets) {
         if (!obj(a)) {fail(id+': invalid asset');continue;}
         if (!fields(a,['name','size','sha256','platform','arch','downloadUrl'])) fail(id+': unexpected asset field');
-        if (!validFilename(a.name) || !/\.(exe|msi|zip|dmg)$/i.test(a.name) || /(?:symbols?|debug|source|fixture|\.pdb|(?:^|[-_.])(?:service|agent)(?:[-_.]|$))/i.test(a.name)) fail(id+': invalid installer');
+        if (!validFilename(a.name) || !validPackageName(a.name) || /(?:symbols?|debug|source|fixture|\.pdb|(?:^|[-_.])(?:service|agent)(?:[-_.]|$))/i.test(a.name)) fail(id+': invalid installer');
         if (names.has(a.name)) fail(id+': duplicate asset name'); names.add(a.name);
         if (!Number.isSafeInteger(a.size) || a.size <= 0 || a.size >= 2**31 || !/^[a-f0-9]{64}$/.test(a.sha256)) fail(id+': invalid size/SHA-256');
         if (!PLATFORMS.includes(a.platform) || !ARCHITECTURES.includes(a.arch) || a.arch === 'universal' && a.platform !== 'macos' || a.platform === 'macos' && a.arch === 'x86') fail(id+': invalid platform/architecture');
-        if (/\.(exe|msi)$/i.test(a.name) && a.platform !== 'windows' || /\.dmg$/i.test(a.name) && a.platform !== 'macos') fail(id+': platform/extension mismatch');
+        if (!platformMatches(a.name,a.platform)) fail(id+': platform/extension mismatch');
         if (!allowedDownloadUrl(a.downloadUrl)) fail(id+': unapproved asset URL');
         else {const u = new URL(a.downloadUrl); try { if (decodeURIComponent(u.pathname.split('/').at(-2)) !== r.tag || decodeURIComponent(u.pathname.split('/').at(-1)) !== a.name) fail(id+': asset URL mismatch'); } catch {fail(id+': invalid URL encoding');}}
         if (urls.has(a.downloadUrl)) fail(id+': duplicate global asset URL'); urls.add(a.downloadUrl);

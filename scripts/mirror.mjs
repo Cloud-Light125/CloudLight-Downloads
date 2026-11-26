@@ -3,7 +3,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { createHash, randomUUID } from 'node:crypto';
 import { digestOf, hashFile } from './github.mjs';
-import { TARGET_REPOSITORY, validateIndex, sortReleases, validDate, validVersion, validFilename } from './index-schema.mjs';
+import { TARGET_REPOSITORY, validateIndex, sortReleases, validDate, validVersion, validFilename, validPackageName, platformMatches } from './index-schema.mjs';
 export const MANIFEST='cloudlight-release.json';
 export const LIMIT=2**31;
 const excluded=/(?:symbols?|debug|source|fixture|\.pdb|(?:^|[-_.])(?:service|agent)(?:[-_.]|$))/i;
@@ -17,10 +17,10 @@ export function chooseRelease(releases,selection) {
 export function selectAssets(source,release) {
  const selected=[],skipped=[];
  for(const a of release.assets??[]){const matches=source.assetRules.filter(r=>new RegExp(r.pattern,'i').test(a.name));
- if(excluded.test(a.name)||!validFilename(a.name)||! /\.(exe|msi|zip|dmg)$/i.test(a.name)||!matches.length){skipped.push({name:a.name,reason:'not an approved installer'});continue;}
+ if(excluded.test(a.name)||!validFilename(a.name)||!validPackageName(a.name)||!matches.length){skipped.push({name:a.name,reason:'not an approved installer'});continue;}
  if(matches.length!==1)throw Error('ambiguous asset rules: '+a.name);
  if(!Number.isSafeInteger(a.size)||a.size<=0||a.size>=LIMIT){skipped.push({name:a.name,reason:'invalid size or >= 2 GiB'});continue;}
- const rule=matches[0];if(/\.(exe|msi)$/i.test(a.name)&&rule.platform!=='windows'||/\.dmg$/i.test(a.name)&&rule.platform!=='macos')throw Error('rule platform mismatch');
+ const rule=matches[0];if(!platformMatches(a.name,rule.platform))throw Error('rule platform mismatch');
  if(selected.some(s=>s.asset.name===a.name))throw Error('duplicate source asset');
  selected.push({asset:a,platform:rule.platform,arch:rule.arch});}
  return {selected,skipped};
@@ -95,7 +95,10 @@ export async function buildIndex(config,targetClient,previous={}) {
  const temp=await mkdtemp(join(tmpdir(),'cloudlight-index-'));
  try {
   const projects=Object.fromEntries(config.sources.map(s=>[s.projectId,{latestVersion:null,releases:[]}]))
-  const published=(await targetClient.releases(config.targetRepository,{authenticated:false})).filter(r=>!r.draft);
+  // The target must remain public. Authenticated metadata reads avoid sharing
+  // the small anonymous IP quota; drafts are never admitted to the index.
+  if(targetClient.token){const repository=await targetClient.json('/repos/'+config.targetRepository);if(repository.private!==false)throw Error('target repository must be Public');}
+  const published=(await targetClient.releases(config.targetRepository)).filter(r=>!r.draft);
   for(const r of published){const source=config.sources.find(s=>r.tag_name.startsWith(s.projectId+'--'));if(!source)continue;
    const assets=await targetClient.assets(config.targetRepository,r.id);const ma=assets.find(a=>a.name===MANIFEST);if(!ma)throw Error('published mirror lacks manifest: '+r.tag_name);
    const m=await readManifest(targetClient,ma,temp);if(m.schemaVersion!==1||m.projectId!==source.projectId)throw Error('invalid public manifest');assertRecord(config,m.projectId,m.release);

@@ -6,7 +6,7 @@ import { tmpdir } from 'node:os';
 import { createHash } from 'node:crypto';
 import { loadConfig,validateConfig } from './config.mjs';
 import { syncAll,chooseRelease,selectAssets,mirrorTag,channelOf,buildIndex,saveIndex,MANIFEST,expectedDownloadUrl } from './mirror.mjs';
-import { validateIndex } from './index-schema.mjs';
+import { validateIndex, validPackageName, platformMatches, assetLabel } from './index-schema.mjs';
 import { GitHub,ApiError } from './github.mjs';
 const config=await loadConfig();
 const names=JSON.parse(await readFile(new URL('./fixtures/approved-names.json',import.meta.url),'utf8'));
@@ -43,7 +43,7 @@ test('CloudLight Clash only mirrors Windows x64 Setup and Portable packages',()=
 });
 async function run(source,target,previous=empty(),failIndex=false){let index=previous;const summary=await syncAll({config,sourceClient:source,targetClient:target,previous,writeIndex:async i=>{if(failIndex)throw Error('disk/index failure');index=i;}});return {summary,index};}
 test('16 mappings, latest RC/date ordering, filtering and limits',async()=>{
- assert.deepEqual(validateConfig(config),[]);assert.equal(config.sources.length,16);
+ assert.deepEqual(validateConfig(config),[]);assert.equal(config.sources.length,22);assert.equal(config.sources.filter(s=>s.enabled).length,16);
  const s=config.sources.find(s=>s.projectId==='cloudlight-startup');const client=new MockGitHub();const stable=client.add(s,{tag:'v10.0.0'});const rc=client.add(s,{tag:'v0.2.0-rc.1',date:'2026-10-02T00:00:00Z',prerelease:true});
  assert.equal(chooseRelease([stable,rc],s.selection),rc);assert.equal(chooseRelease([stable,rc],'stable-only'),stable);assert.equal(chooseRelease([{...rc,draft:true}],s.selection),undefined);
  assert.throws(()=>chooseRelease([{...rc,published_at:null}],s.selection));
@@ -55,7 +55,7 @@ test('16 mappings, latest RC/date ordering, filtering and limits',async()=>{
  assert.throws(()=>expectedDownloadUrl('other/repository','tag','Setup.exe'),/invalid target/);
 });
 test('all 16 sources, multiplatform, idempotency, missing asset repair, history',async()=>{
- const source=new MockGitHub(),target=new MockGitHub();for(const s of config.sources)source.add(s);
+ const source=new MockGitHub(),target=new MockGitHub();for(const s of config.sources.filter(s=>s.enabled))source.add(s);
  let {summary,index}=await run(source,target);assert.equal(summary.filter(r=>r.status==='MIRRORED').length,16);assert.equal(source.checked.length,16);assert.deepEqual(validateIndex(index,config.sources.map(s=>s.projectId)),[]);
  const uploads=target.uploads,downloads=source.downloads;const again=await run(source,target,index);assert.deepEqual(again.index,index);assert.equal(target.uploads,uploads);assert.equal(source.downloads,downloads);
  const start=config.sources.find(s=>s.projectId==='cloudlight-startup');const r=target.rows.find(r=>r.tag_name.startsWith(start.projectId+'--'));r.assets=r.assets.filter(a=>a.name===MANIFEST);
@@ -95,7 +95,7 @@ test('second installer upload failure never publishes a partially complete relea
 
 test('recover 16 existing untagged drafts without downloading or uploading installers again',async()=>{
  const source=new MockGitHub(),target=new MockGitHub(),installerIds=new Map();
- for(const s of config.sources){
+ for(const s of config.sources.filter(s=>s.enabled)){
   const release=source.add(s);
   const draft=await target.json('/repos/'+config.targetRepository+'/releases',{method:'POST',body:{tag_name:mirrorTag(s.projectId,release.tag_name),draft:true,prerelease:false}});
   for(const a of release.assets){const existing=target.asset(a.name,source.blobs.get(a.id));existing.browser_download_url='https://github.com/'+config.targetRepository+'/releases/download/untagged-'+draft.id+'/'+encodeURIComponent(a.name);draft.assets.push(existing);}
@@ -118,7 +118,7 @@ test('recover 16 existing untagged drafts without downloading or uploading insta
  };
  const first=await run(source,target);assert.equal(first.summary.filter(r=>r.status==='MIRRORED').length,16);assert.equal(publicChecks,16);assert.equal(manifests,16);assert.equal(source.downloads,0);assert.equal(target.rows.length,16);
  for(const r of target.rows){assert.equal(r.draft,false);assert.deepEqual(r.assets.filter(a=>a.name!==MANIFEST).map(a=>a.id),installerIds.get(r.id));}
- for(const p of Object.values(first.index.projects)){assert.equal(p.releases.length,1);for(const a of p.releases[0].assets)assert.ok(!a.downloadUrl.includes('/untagged-'));}
+ for(const p of Object.values(first.index.projects).filter(p=>p.releases.length)){assert.equal(p.releases.length,1);for(const a of p.releases[0].assets)assert.ok(!a.downloadUrl.includes('/untagged-'));}
  const again=await run(source,target,first.index);assert.deepEqual(again.index,first.index);assert.equal(again.summary.filter(r=>r.status==='MIRRORED').length,16);assert.equal(target.rows.length,16);assert.equal(manifests,16);assert.equal(source.downloads,0);
 });
 
@@ -128,4 +128,44 @@ test('published URL mismatch cannot enter the index and recovers without reuploa
  const failed=await run(source,target);assert.match(failed.summary[1].error,/public release verification: published asset missing\/URL mismatch/);assert.ok(failed.summary.some(r=>r.projectId==='INDEX'&&r.status==='ERROR'));assert.deepEqual(failed.index,empty());assert.equal(target.rows[0].draft,false);
  const uploads=target.uploads,downloads=source.downloads;const published=target.rows[0];for(const a of published.assets)a.browser_download_url=expectedDownloadUrl(config.targetRepository,published.tag_name,a.name);
  const recovered=await run(source,target);assert.equal(recovered.summary[1].status,'MIRRORED');assert.equal(recovered.index.projects[config.sources[1].projectId].releases.length,1);assert.equal(target.uploads,uploads);assert.equal(source.downloads,downloads);assert.equal(target.rows.length,1);
+});
+
+test('six added sources stay disabled until publication gates are met', async()=>{
+ const held=config.sources.slice(16);
+ assert.equal(held.length,6);
+ assert.ok(held.every(s=>!s.enabled && s.releaseBlockedReason));
+ const source=new MockGitHub(),target=new MockGitHub();
+ const result=await run(source,target);
+ assert.ok(source.checked.every(repo=>!held.some(s=>s.repository===repo)));
+ assert.equal(Object.keys(result.index.projects).length,22);
+ assert.ok(held.every(s=>result.index.projects[s.projectId].latestVersion===null));
+ const bad=structuredClone(config);bad.sources.find(s=>s.repository===null).enabled=true;
+ assert.ok(validateConfig(bad).length);
+});
+test('TAR, FPK, APK and deployment files require explicit rules and matching platforms',()=>{
+ const cases=[['cloudlight-xiaomi-docker','cloudlight-xiaomi-amd64.tar','linux','x64'],['cloudlight-xiaomi-docker','compose.yml','linux','x64'],['cloudlight-xiaomi-docker','docker-setup.md','linux','x64'],['cloudlight-xiaomi-docker','cloudlight-xiaomi-amd64.tar.sha256','linux','x64'],['cloudlight-secure-backup','CloudLightSecureBackup-0.3.10-fnos-x86_64.fpk','fnos','x64'],['colorduo-dualsim','ColorDuo-1.1.3-dualsim.1.apk','android','unknown']];
+ for(const [id,name,platform,arch] of cases){
+  const source=config.sources.find(s=>s.projectId===id);
+  const result=selectAssets(source,{assets:[{name,size:100},{name:'private-settings.yml',size:100},{name:'unknown.apk',size:100}]});
+  assert.deepEqual(result.selected.map(x=>[x.asset.name,x.platform,x.arch]),[[name,platform,arch]]);
+  const asset={name,size:100,sha256:'a'.repeat(64),platform,arch,downloadUrl:expectedDownloadUrl(config.targetRepository,id+'--v1.0.0',name)};
+  const release={version:'1.0.0',sourceTag:'v1.0.0',tag:id+'--v1.0.0',channel:'stable',prerelease:false,sourcePrerelease:false,publishedAt:'2026-11-26T00:00:00Z',assets:[asset]};
+  const index={schemaVersion:1,generatedAt:'2026-11-26T00:00:00Z',projects:{[id]:{latestVersion:'1.0.0',releases:[release]}}};
+  assert.deepEqual(validateIndex(index),[]);
+  if(!name.endsWith('.sha256')){asset.platform='windows';assert.ok(validateIndex(index).length);}
+ }
+ assert.equal(validPackageName('credentials.yml'),false);
+ assert.equal(validPackageName('private.json'),false);
+ assert.equal(platformMatches('app.apk','windows'),false);
+ assert.equal(platformMatches('app.fpk','linux'),false);
+ assert.equal(assetLabel({name:'app.fpk'}),'飞牛原生安装包');
+});
+
+test('authenticated index metadata still rejects a private target repository',async()=>{
+ const target=new MockGitHub();target.token='synthetic-test-token';
+ target.json=async()=>({private:true});
+ await assert.rejects(()=>buildIndex(config,target,empty()),/target repository must be Public/);
+ assert.equal(target.checked.length,0,'private repository contents must never be indexed');
+ target.json=async()=>({private:false});
+ assert.deepEqual(await buildIndex(config,target,empty()),empty());
 });

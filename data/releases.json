@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-20T07:31:45.267Z",
+  "generatedAt": "2026-11-26T09:46:18.010Z",
   "projects": {
     "cloudlight-wechat": {
       "latestVersion": "2026.906.4",
@@ -466,6 +466,74 @@
           ]
         }
       ]
+    },
+    "cloudlight-secure-backup": {
+      "latestVersion": null,
+      "releases": []
+    },
+    "x-media-monitor": {
+      "latestVersion": null,
+      "releases": []
+    },
+    "cloudlight-qq-history": {
+      "latestVersion": null,
+      "releases": []
+    },
+    "cloudlight-xiaomi-docker": {
+      "latestVersion": "2.1.6",
+      "releases": [
+        {
+          "version": "2.1.6",
+          "sourceTag": "v2.1.6",
+          "tag": "cloudlight-xiaomi-docker--v2.1.6",
+          "channel": "stable",
+          "prerelease": false,
+          "sourcePrerelease": false,
+          "publishedAt": "2026-10-19T15:45:04Z",
+          "assets": [
+            {
+              "name": "cloudlight-xiaomi-amd64.tar",
+              "size": 122117632,
+              "sha256": "dc8e4786bb32af042cfdb6abdb3ef551f84bc25c082155db545324b9257f896a",
+              "platform": "linux",
+              "arch": "x64",
+              "downloadUrl": "https://github.com/Cloud-Light125/CloudLight-Downloads/releases/download/cloudlight-xiaomi-docker--v2.1.6/cloudlight-xiaomi-amd64.tar"
+            },
+            {
+              "name": "cloudlight-xiaomi-amd64.tar.sha256",
+              "size": 95,
+              "sha256": "6134d0163cd59ec884e924533f4b9887bcc80ff9608a6a383e1e53753bb009a7",
+              "platform": "linux",
+              "arch": "x64",
+              "downloadUrl": "https://github.com/Cloud-Light125/CloudLight-Downloads/releases/download/cloudlight-xiaomi-docker--v2.1.6/cloudlight-xiaomi-amd64.tar.sha256"
+            },
+            {
+              "name": "compose.yml",
+              "size": 866,
+              "sha256": "6bbef2cfe4574a6f60c4b82ba04fa8cca3dee115c518a6b6ba49fe7fe18796ed",
+              "platform": "linux",
+              "arch": "x64",
+              "downloadUrl": "https://github.com/Cloud-Light125/CloudLight-Downloads/releases/download/cloudlight-xiaomi-docker--v2.1.6/compose.yml"
+            },
+            {
+              "name": "docker-setup.md",
+              "size": 2978,
+              "sha256": "13a0f97664a052accf0bf6b6e001d870a67e31185933652c881b2f39b76f7368",
+              "platform": "linux",
+              "arch": "x64",
+              "downloadUrl": "https://github.com/Cloud-Light125/CloudLight-Downloads/releases/download/cloudlight-xiaomi-docker--v2.1.6/docker-setup.md"
+            }
+          ]
+        }
+      ]
+    },
+    "colorduo-dualsim": {
+      "latestVersion": null,
+      "releases": []
+    },
+    "sesame-m-cloudlight": {
+      "latestVersion": null,
+      "releases": []
     }
   }
 }
